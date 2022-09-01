@@ -1,0 +1,27 @@
+.load-component-container {
+    display: flex;
+    gap: 15px;
+}
+
+.load-component-element {
+    width: 30px;
+    height: 30px;
+    transform: rotate(45deg);
+    background-color: chartreuse;
+
+    animation: loadingAnimation 1s infinite linear;
+}
+
+.load-component-element:nth-child(even) {
+    animation-direction: reverse;
+    background-color: yellow;
+}
+
+@keyframes loadingAnimation {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);   
+    }
+}
