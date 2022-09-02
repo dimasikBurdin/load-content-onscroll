@@ -6,9 +6,9 @@ import './content.css';
 import { ContentItem } from "./contentItem";
 
 type GetData = [{
-    value: string,
-    index: number
-  }];
+  value: string,
+  index: number
+}];
   
 const getAllData: () => Promise<GetData> = async () => {
     let response = await fetch(`${apiUrl}/all-data`);
@@ -37,7 +37,7 @@ const fullWindowHeight = document.body.offsetHeight;
 export const ContentContainer:React.FC = () => {
   const [currentData, setCurrentData] = useState<GetData>();
   const [visibleItems, setVisibleItems] = useState<number>(3);
-  const {status, error, data, refetch, isLoading} = useQuery<GetData, Error>(['data', visibleItems - 3, visibleItems], () => getLimitedData(visibleItems - 3, 3), {
+  const {status, error, data, refetch, isLoading} = useQuery<GetData, Error>(['data', visibleItems], () => getLimitedData(visibleItems - 3, 3), {
     refetchOnWindowFocus: false,
     enabled: false
   });
@@ -69,33 +69,12 @@ export const ContentContainer:React.FC = () => {
   useEffect(() => {
     refetch()
   }, [visibleItems])
- 
-
-  // if(status === 'loading') {
-  //   return <div className="content-container">
-  //       <LoadComponent />
-  //   </div>
-  // }
 
   if(status === 'error') {
     return <div>
       {error.message}
     </div>
   }
-
-  // if(status === 'success') {
-  //   return <div className="content-container">
-  //     {currentData?.map((value, index) => {
-  //       if(index < visibleItems)
-  //           return <ContentItem 
-  //               key={value.value + index}
-  //               value={value.value}
-  //           />
-  //       return null;
-  //     })}
-  //     {isLoading && <LoadComponent />}
-  //   </div>
-  // }
 
   return <div className="content-container">
     {currentData?.map((value, index) => {
