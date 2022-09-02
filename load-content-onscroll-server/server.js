@@ -1,4 +1,5 @@
 const db = require('./database.json');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -8,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('fuck');
+    res.sendFile(path.join(__dirname + '/start.html'))
 })
 
 app.get('/all-data', (req, res) => {
@@ -26,7 +27,7 @@ app.post('/limited-data', (req, res) => {
         res.send(JSON.stringify(copyDb))
         console.log('send limited data', req.body.startIndex, req.body.countItems)
         
-    }, 1000);
+    }, Math.random() * 1000);
 })
 
 app.listen(port, () => {
