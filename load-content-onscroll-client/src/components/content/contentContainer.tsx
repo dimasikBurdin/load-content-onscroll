@@ -37,7 +37,7 @@ const fullWindowHeight = document.body.offsetHeight;
 export const ContentContainer:React.FC = () => {
   const [currentData, setCurrentData] = useState<GetData>();
   const [visibleItems, setVisibleItems] = useState<number>(3);
-  const {status, error, data, refetch, isLoading} = useQuery<GetData, Error>(['data', visibleItems], () => getLimitedData(visibleItems - 3, 3), {
+  const {status, error, data, refetch, isLoading, isError} = useQuery<GetData, Error>(['data', visibleItems], () => getLimitedData(visibleItems - 3, 3), {
     refetchOnWindowFocus: false,
     enabled: false
   });
@@ -69,13 +69,7 @@ export const ContentContainer:React.FC = () => {
   useEffect(() => {
     refetch()
   }, [visibleItems])
-
-  if(status === 'error') {
-    return <div>
-      {error.message}
-    </div>
-  }
-
+ 
   return <div className="content-container">
     {currentData?.map((value, index) => {
       if(index < visibleItems)
@@ -86,5 +80,6 @@ export const ContentContainer:React.FC = () => {
       return null;
     })}
     {isLoading && <LoadComponent />}
+    {isError && <div>{error.message}</div>}
   </div>
 }
